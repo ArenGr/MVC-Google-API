@@ -14,7 +14,7 @@ class RequestHistoryController extends BaseController
     public function index()
     {
         $res = $this->requestHistoryService->getAllHistory();
-        return $this->renderView('home', []);
+        return $this->renderView('home', $res);
 
     }
 }

@@ -30,7 +30,7 @@ class View implements ViewInterface
      * @param array $params
      * @return void
      */
-    public function renderView(string $name, array $params = []): void
+    public function render(string $name, array $params = []): void
     {
         $path = $this->resolvePath($name);
 

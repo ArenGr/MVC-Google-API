@@ -7,7 +7,6 @@ use App\Core\View\View;
 
 class BaseController implements BaseControllerInterface
 {
-
     /**
      * @param View $view
      */
@@ -23,8 +22,7 @@ class BaseController implements BaseControllerInterface
      */
     public function renderView(string $name, array $data): void
     {
-        Dev::dd($this->view);
-        $this->view->renderView($name, $data);
+        $this->view->render($name, $data);
     }
 
     /**
@@ -42,10 +40,4 @@ class BaseController implements BaseControllerInterface
         echo $json;
         die();
     }
-
-    protected function viewv() {
-        $this->v =  new View();
-        return $this;
-    }
-
 }
