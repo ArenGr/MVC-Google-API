@@ -16,5 +16,8 @@
      "scripts": {
         "run:server": "php -S localhost:8000 -t public"
     },
-    "require": {}
+    "require": {
+        "psr/container": "^2.0",
+        "vlucas/phpdotenv": "^5.6"
+    }
 }
