@@ -2,6 +2,7 @@
 
 namespace App\Core\Database\Connections;
 
+use App\Core\Config\ConfigHandler as Config;
 use \PDO;
 use \PDOException;
 
@@ -15,11 +16,11 @@ class PostgreSqlDatabase implements DbConnection
 
     public function __construct()
     {
-        $this->host = Config::get('databases.postgresql.host');
-        $this->port = Config::get('databases.postgresql.port');
-        $this->db = Config::get('databases.postgresql.db');
-        $this->user = Config::get('databases.postgresql.user');
-        $this->pass = Config::get('databases.postgresql.pass');
+        $this->host = Config::get('database.databases.postgresql.host');
+        $this->port = Config::get('database.databases.postgresql.port');
+        $this->db = Config::get('database.databases.postgresql.db');
+        $this->user = Config::get('database.databases.postgresql.user');
+        $this->pass = Config::get('database.databases.postgresql.pass');
     }
 
     /**
@@ -35,7 +36,7 @@ class PostgreSqlDatabase implements DbConnection
 
         try {
             return new PDO(
-                "mysql:host={$this->host};port={$this->port};dbname={$this->db}",
+                "pgsql:host={$this->host};port={$this->port};dbname={$this->db}",
                 $this->user,
                 $this->pass,
                 $options

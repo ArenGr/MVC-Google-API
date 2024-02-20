@@ -14,16 +14,11 @@ class RouteRegister
 
         if (!empty($name) && !empty($path)) {
             self::register($name, $path);
-
-//            Dev::dd(self::$routes);
-
         }
     }
 
     private static function register(string $name, string $path)
     {
-//        Dev::dd($name, false);
-//        Dev::dd($path);
         $path = explode(':', $path);
         self::$routes[$name] = array(
             'controller' => $path[0],

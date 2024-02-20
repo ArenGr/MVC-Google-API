@@ -17,11 +17,11 @@ class MySqlDatabase implements DbConnection
 
     public function __construct()
     {
-        $this->host = Config::get('databases.mysql.host');
-        $this->port = Config::get('databases.mysql.port');
-        $this->db = Config::get('databases.mysql.db');
-        $this->user = Config::get('databases.mysql.user');
-        $this->pass = Config::get('databases.mysql.pass');
+        $this->host = Config::get('database.databases.mysql.host');
+        $this->port = Config::get('database.databases.mysql.port');
+        $this->db = Config::get('database.databases.mysql.db');
+        $this->user = Config::get('database.databases.mysql.user');
+        $this->pass = Config::get('database.databases.mysql.pass');
     }
 
     /**
@@ -36,11 +36,6 @@ class MySqlDatabase implements DbConnection
         ];
 
         try {
-//            Dev::dd($this->host,false);
-//            Dev::dd($this->port, false);
-//            Dev::dd($this->db, false);
-//            Dev::dd($this->user, false);
-//            Dev::dd($this->pass);
             return new PDO(
                 "mysql:host={$this->host};port={$this->port};dbname={$this->db}",
                 $this->user,

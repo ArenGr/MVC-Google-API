@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Container\Container;
 use App\Core\Kernel;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -22,4 +23,6 @@ spl_autoload_register(function ($className) {
 
 require_once APP_ROOT . '/routes/web.php';
 
-$kernel = new Kernel;
+$container = new Container();
+
+$kernel = new Kernel($container);

@@ -2,26 +2,16 @@
 
 namespace App\Core\Container;
 
+use App\Core\Helpers\Dev;
 use Closure;
 use Exception;
 use ReflectionClass;
-
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
-    /**
-     * @var array
-     */
-    protected $instances = [];
+    protected array $instances = [];
 
-    /**
-     * @param       $id
-     * @param array $parameters
-     *
-     * @return mixed|null|object
-     * @throws Exception
-     */
     public function get($id, $parameters = [])
     {
         if (!$this->has($id)) {
@@ -31,39 +21,23 @@ class Container implements ContainerInterface
         return $this->resolve($this->instances[$id], $parameters);
     }
 
-
-    /**
-     * @param       $id
-     *
-     * @return bool
-     * @throws Exception
-     */
     public function has($id): bool
     {
         return isset($this->instances[$id]);
     }
 
-    /**
-     * @param      $abstract
-     * @param null $concrete
-     */
-    public function set($abstract, $concrete = NULL)
+    public function set($abstract, $concrete = null)
     {
-        if ($concrete === NULL) {
+        if ($concrete === null) {
             $concrete = $abstract;
         }
-        $this->instances[$abstract] = $concrete;
+
+        // Check if an instance already exists
+        if (!$this->has($abstract)) {
+            $this->instances[$abstract] = $concrete;
+        }
     }
 
-    /**
-     * resolve single
-     *
-     * @param $concrete
-     * @param $parameters
-     *
-     * @return mixed|object
-     * @throws Exception
-     */
     public function resolve($concrete, $parameters)
     {
         if ($concrete instanceof Closure) {
@@ -76,7 +50,7 @@ class Container implements ContainerInterface
         }
 
         $constructor = $reflector->getConstructor();
-        if (is_null($constructor)) {
+        if ($constructor === null) {
             return $reflector->newInstance();
         }
 
@@ -86,24 +60,16 @@ class Container implements ContainerInterface
         return $reflector->newInstanceArgs($dependencies);
     }
 
-    /**
-     * get all dependencies resolved
-     *
-     * @param $parameters
-     *
-     * @return array
-     * @throws Exception
-     */
     public function getDependencies($parameters)
     {
         $dependencies = [];
         foreach ($parameters as $parameter) {
             $dependency = $parameter->getClass();
-            if ($dependency === NULL) {
+            if ($dependency === null) {
                 if ($parameter->isDefaultValueAvailable()) {
                     $dependencies[] = $parameter->getDefaultValue();
                 } else {
-                    throw new Exception("Can not resolve class dependency {$parameter->name}");
+                    throw new Exception("Cannot resolve class dependency {$parameter->name}");
                 }
             } else {
                 $dependencies[] = $this->get($dependency->name);

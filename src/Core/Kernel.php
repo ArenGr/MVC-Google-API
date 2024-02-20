@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Core\Container\Container;
+use App\Core\Helpers\Dev;
 use App\Core\Router\RouteHandler as Route;
 use Psr\Container\ContainerInterface;
 
@@ -11,11 +11,11 @@ class Kernel
     private array $routes;
     private ContainerInterface $container;
 
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $route = new Route;
         $this->routes = $route->getRoute();
-        $this->container = new Container();
+        $this->container = $container;
         $this->run();
     }
 
@@ -26,7 +26,6 @@ class Kernel
 
     public function call($controller, $action, $params)
     {
-//        Dev::dd($controller);
         $controller = "App\Controller\\$controller";
         if (class_exists($controller)) {
             if (method_exists($controller, $action)) {

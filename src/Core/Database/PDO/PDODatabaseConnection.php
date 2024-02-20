@@ -19,8 +19,7 @@ class PDODatabaseConnection
      */
     private function __construct()
     {
-//        Dev::dd(Config::get('default','databases'));
-        switch (Config::get('default.use', 'databases')) {
+        switch (Config::get('database.default')) {
             case 'mysql':
                 $factory = new MySqlDatabaseFactory();
                 $mysqlConnection = $factory->createDatabaseConnection();

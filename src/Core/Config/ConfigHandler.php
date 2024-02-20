@@ -4,29 +4,31 @@ namespace App\Core\Config;
 
 class ConfigHandler
 {
-    private static array $config = array();
+    private static array $configs = array();
 
-    private static function handle($key)
+    private static function handle($keys)
     {
-        $keys = explode('.', $key);
-        $value = self::$config;
+        $values = self::$configs;
 
         foreach ($keys as $key) {
-            if (array_key_exists($key, $value)) {
-                $value = $value[$key];
+            if (array_key_exists($key, $values)) {
+                $values = $values[$key];
             } else {
                 return null;
             }
         }
 
-        return $value;
+        return $values;
     }
 
-    public static function get($key, $type='paths')
+    public static function get($key)
     {
-        if (empty(self::$config)) {
-            self::$config = require_once(dirname($_SERVER['DOCUMENT_ROOT']) . sprintf("/config/%s.php", $type));
+        if (!empty($key)) {
+            $keys = explode('.', $key);
+            if (empty(self::$configs[$keys[0]])) {
+                self::$configs = require_once(sprintf("%s/config/%s.php", APP_ROOT, $keys[0]));
+            }
+            return self::handle($keys);
         }
-        return self::handle($key);
     }
 }
