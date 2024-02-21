@@ -4,9 +4,16 @@ namespace App\Core\Config;
 
 class ConfigHandler
 {
+    /**
+     * @var array
+     */
     private static array $configs = array();
 
-    private static function handle($keys)
+    /**
+     * @param array $keys
+     * @return string|null
+     */
+    private static function handle(array $keys): ?string
     {
         $values = self::$configs;
 
@@ -21,6 +28,10 @@ class ConfigHandler
         return $values;
     }
 
+    /**
+     * @param $key
+     * @return string|void|null
+     */
     public static function get($key)
     {
         if (!empty($key)) {

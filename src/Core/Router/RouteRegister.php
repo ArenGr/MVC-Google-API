@@ -11,7 +11,6 @@ class RouteRegister
 
     public static function add(string $name, string $path): void
     {
-
         if (!empty($name) && !empty($path)) {
             self::register($name, $path);
         }
@@ -27,11 +26,8 @@ class RouteRegister
         );
     }
 
-
     public static function getRoutes()
     {
-
         return self::$routes;
     }
-
 }

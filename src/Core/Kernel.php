@@ -8,20 +8,21 @@ use Psr\Container\ContainerInterface;
 
 class Kernel
 {
+    private Route $route;
     private array $routes;
     private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
-        $route = new Route;
-        $this->routes = $route->getRoute();
+        $this->route = new Route($_SERVER['REQUEST_URI']);
+        $this->routes = $this->route->getRoute();
         $this->container = $container;
         $this->run();
     }
 
     public function run()
     {
-        $this->call($this->routes['controller'], $this->routes['action'], []);
+        $this->call($this->routes['controller'], $this->routes['action'], $this->routes['params']);
     }
 
     public function call($controller, $action, $params)

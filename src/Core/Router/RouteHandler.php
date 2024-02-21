@@ -3,27 +3,42 @@
 namespace App\Core\Router;
 
 use App\Core\Exceptions\NotFoundException;
+use App\Core\Helpers\UriHelper;
 
 class RouteHandler
 {
-    private function hasRoute(): bool
+
+    private string $requestUri;
+
+    public function __construct(string $requestUri)
     {
-        return array_key_exists($_SERVER['REQUEST_URI'], RouteRegister::getRoutes());
+        $this->requestUri = UriHelper::sanitizeUri($requestUri);
     }
 
     /**
-     * @return mixed
+     * @return bool
+     */
+    private function hasRoute($path): bool
+    {
+        return array_key_exists($path, RouteRegister::getRoutes());
+    }
+
+    /**
+     * @return mixed|void
      */
     public function getRoute()
     {
-        if ($this->hasRoute()) {
+        $path = UriHelper::getPath($this->requestUri);
 
-            return RouteRegister::getRoutes()[$_SERVER['REQUEST_URI']];
+        if ($this->hasRoute($path)) {
 
+            $path = RouteRegister::getRoutes()[$path];
+
+            $path['params'] = UriHelper::getQuery($this->requestUri) ?? [];
+
+            return $path;
         } else {
-
             NotFoundException::throw();
-
         }
     }
 }

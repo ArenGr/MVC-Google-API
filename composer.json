@@ -17,6 +17,8 @@
         "run:server": "php -S localhost:8000 -t public"
     },
     "require": {
+        "php": "^8.0",
+        "ext-curl": "*",
         "psr/container": "^2.0",
         "vlucas/phpdotenv": "^5.6"
     }
