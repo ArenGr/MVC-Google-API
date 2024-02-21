@@ -13,7 +13,7 @@ class ConfigHandler
      * @param array $keys
      * @return string|null
      */
-    private static function handle(array $keys): ?string
+    private static function handle(array $keys): string | array | null
     {
         $values = self::$configs;
 
