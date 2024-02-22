@@ -5,7 +5,7 @@ Test Task: MVC Framework Integration with Google Static Maps API for USPIO LTD
 ## Table of Contents
 
 - [Installation](#installation)
-- [Installation Requirements](#installation requirements)
+- [Requirements](#requirements)
 - [Usage](#usage)
 - [License](#license)
 
