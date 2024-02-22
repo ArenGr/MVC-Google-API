@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\Helpers\Dev;
 use App\Core\View\View;
 use App\Models\RequestsHistory;
 
@@ -29,7 +28,6 @@ class HomeController
     public function getAll()
     {
         echo json_encode($this->requestsHistory->getAll());
-//        echo json_encode($this->requestsHistory->getAll());
     }
 
 }

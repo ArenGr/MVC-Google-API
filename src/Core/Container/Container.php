@@ -2,7 +2,6 @@
 
 namespace App\Core\Container;
 
-use App\Core\Helpers\Dev;
 use Closure;
 use Exception;
 use ReflectionClass;
@@ -32,7 +31,6 @@ class Container implements ContainerInterface
             $concrete = $abstract;
         }
 
-        // Check if an instance already exists
         if (!$this->has($abstract)) {
             $this->instances[$abstract] = $concrete;
         }

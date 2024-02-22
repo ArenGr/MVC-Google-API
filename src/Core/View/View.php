@@ -3,7 +3,6 @@
 namespace App\Core\View;
 
 use App\Core\Config\ConfigHandler as Config;
-use App\Core\Helpers\Dev;
 use Exception;
 
 class View implements ViewInterface

@@ -5,7 +5,6 @@ namespace App\Core\Database\PDO;
 use App\Core\Config\ConfigHandler as Config;
 use App\Core\Database\Factory\MySqlDatabaseFactory;
 use App\Core\Database\Factory\PostgreSqlDatabaseFactory;
-use App\Core\Helpers\Dev;
 use Exception;
 use PDO;
 

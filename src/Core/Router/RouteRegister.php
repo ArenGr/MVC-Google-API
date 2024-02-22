@@ -2,8 +2,6 @@
 
 namespace App\Core\Router;
 
-use App\Core\Helpers\Dev;
-
 class RouteRegister
 {
 
@@ -22,7 +20,6 @@ class RouteRegister
         self::$routes[$name] = array(
             'controller' => $path[0],
             'action' => $path[1],
-            /* To do - parameters */
         );
     }
 

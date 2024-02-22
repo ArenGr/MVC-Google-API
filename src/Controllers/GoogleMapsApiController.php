@@ -6,7 +6,9 @@ use App\Models\GoogleMapsApi;
 
 class GoogleMapsApiController
 {
-    public function __construct(public GoogleMapsApi $googleMapsApi){}
+    public function __construct(public GoogleMapsApi $googleMapsApi)
+    {
+    }
 
     /**
      * @param float $lat

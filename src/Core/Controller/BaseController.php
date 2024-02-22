@@ -2,7 +2,6 @@
 
 namespace App\Core\Controller;
 
-use App\Core\Helpers\Dev;
 use App\Core\View\View;
 
 class BaseController implements BaseControllerInterface

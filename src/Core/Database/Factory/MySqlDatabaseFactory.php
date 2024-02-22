@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Core\Database\Factory;
 
 use App\Core\Database\Connections\DbConnection;

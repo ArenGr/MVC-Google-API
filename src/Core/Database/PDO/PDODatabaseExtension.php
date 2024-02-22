@@ -7,7 +7,8 @@ use PDO;
 class PDODatabaseExtension
 {
     public PDO $pdo;
-//    private $stmt;
+
+    private $stmt;
 
     public function __construct()
     {
