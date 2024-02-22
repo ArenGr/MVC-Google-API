@@ -48,9 +48,18 @@ Before proceeding with the installation, ensure that your system meets the follo
    ```bash
    chmod +x install.sh
    ```
-6. Run the install.sh script:
+6. Run the install.sh script and ensure to add the MySql DB credentials outputted by the script to your `.env` file.
    ```bash
    ./install.sh
+   ```
+7. Run migrations:
+    ```bash
+   composer run:migration
+   ```
+
+7. Run server:
+    ```bash
+   composer run:server
    ```
 ## Usage
 
