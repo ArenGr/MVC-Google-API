@@ -16,7 +16,7 @@ class RequestsHistory extends Model
      */
     public function getAll()
     {
-        $this->PDOExtension->prepare("SELECT * FROM requests_history ORDER BY `id` ASC");
+        $this->PDOExtension->prepare("SELECT * FROM requests_history ORDER BY `id` DESC");
 
         $this->PDOExtension->execute();
 
