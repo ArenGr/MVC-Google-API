@@ -16,14 +16,14 @@ class RequestsHistory extends Model
      */
     public function getAll()
     {
-        return $this->PDODatabaseExtension->fetchAll("SELECT * FROM $this->table LIMIT 10 OFFSET 0");
+        $this->PDOExtension->prepare("SELECT * FROM requests_history");
+
+        $this->PDOExtension->execute();
+
+        return $this->PDOExtension->fetchAll();
     }
 
-    /**
-     * @param $data
-     * @return void
-     */
-    public function store($data)
+    public function store($data): void
     {
         $template = [
             'street_number',
@@ -36,24 +36,29 @@ class RequestsHistory extends Model
 
         foreach ($template as $key) {
             if (!array_key_exists($key, $data)) {
-                $data[$key] = null;
+                $data[$key] = '';
             }
         }
 
-        $sql = "INSERT INTO $this->table (
-                              street_number,
-                              route,
-                              sublocality_level_1,
-                              locality,
-                              administrative_area_level_1,
-                              country) VALUES
-                            (
-                             :street_number,
-                             :route,
-                             :sublocality_level_1,
-                             :locality,
-                             :administrative_area_level_1,
-                             :country)";
-        $this->PDODatabaseExtension->prepare($sql)->execute($data);
+        $sql = "INSERT INTO requests_history (
+                      street_number,
+                      route,
+                      sublocality_level_1,
+                      locality,
+                      administrative_area_level_1,
+                      country) VALUES (
+                      :street_number,
+                      :route,
+                      :sublocality_level_1,
+                      :locality,
+                      :administrative_area_level_1,
+                      :country)";
+
+        $this->PDOExtension->prepare($sql);
+
+        foreach ($data as $key => $value) {
+            $this->PDOExtension->bind([$key => $value]);
+        }
+        $this->PDOExtension->execute();
     }
 }

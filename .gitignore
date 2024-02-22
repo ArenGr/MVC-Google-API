@@ -1,29 +1,15 @@
-# Ignore vendor directory created by Composer
 /vendor/
 
-# Ignore any logs or cache files
-/log/
-/cache/
-
-# Ignore environment-specific files
 /.env
 /.env.*
 
-# Ignore IDE specific files
 /.idea/
 /.vscode/
 
-# Ignore Composer lock file
 /composer.lock
 
-# Ignore PHPStorm MetaData
+/node_modules
+
+/package-lock.json
+
 .phpstorm.meta.php
-
-# Ignore SQLite database file
-/database/database.sqlite
-
-# Ignore any compiled PHP files
-*.phar
-
-# Ignore any user-specific files
-.DS_Store

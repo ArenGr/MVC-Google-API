@@ -25,4 +25,11 @@ class HomeController
 
         return $this->requestsHistory->store($data);
     }
+
+    public function getAll()
+    {
+        echo json_encode($this->requestsHistory->getAll());
+//        echo json_encode($this->requestsHistory->getAll());
+    }
+
 }

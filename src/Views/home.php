@@ -1,94 +1,51 @@
-<?php require_once 'layout/header.php'?>
-
-
-<?php var_dump($this->data);?>
-<button type="button" class="btn btn-primary">Primary</button>
-<div class>hello</div>
-<img id="mapImage" src="data:image/png;base64,<?= base64_encode($this->data['img']) ?>" alt="Google Map">
-
-<input type="text" id="autocomplete" placeholder="Enter a location">
-
-<script>
-
-    function initAutocomplete() {
-        var input = document.getElementById('autocomplete');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-
-        autocomplete.addListener('place_changed', function () {
-            var place = autocomplete.getPlace();
-
-            if (!place.geometry || !place.geometry.location) {
-                window.alert("No details available for input: '" + place.name + "'");
-                return;
-            }
-
-            var lat = place.geometry.location.lat();
-            var lng = place.geometry.location.lng();
-
-            fetchMapByCoordinates(lat, lng);
-            postMapData(place.address_components);
-        })
-    }
-
-
-    function fetchMapByCoordinates(lat, lng) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                try {
-                    document.getElementById("mapImage").src = "data:image/png;base64," + this.responseText;
-                    // postMapData("hello");
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        };
-
-        xhttp.open("GET", "http://localhost:8000/map/?lat=" + lat + "&lng=" + lng, true);
-        xhttp.send();
-    }
-
-    function postMapData(data) {
-
-        expectedTypes = ['street_number', 'route', 'sublocality_level_1', 'locality', 'administrative_area_level_1', 'country'];
-        res = data.reduce((acc, item) => {
-            if (expectedTypes.includes(item['types'][0])) {
-                acc[item['types'][0]] = item['long_name'];
-            }
-            return acc;
-        }, {});
-
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    try {
-                        // document.getElementById("mapImage").src = "data:image/png;base64," + this.responseText;
-                        console.log('workssssssssss')
-                    } catch (error) {
-                        console.log(error);
+<?php require_once 'layout/header.php' ?>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="display-6">Google Static Maps</h1>
+            <div class="col-md-6">
+                <img src="/resources/images/google-maps-earth.jpg" class="img-fluid" id="mapImage" width="600" height="400" alt="Google Map">
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" id="autocomplete" class="form-control" placeholder="Enter your address"
+                           aria-label="Address" aria-describedby="button-addon2">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <table class="table">
+                    <thead class="table-success">
+                    <tr>
+                        <th scope="col">Street Number</th>
+                        <th scope="col">Route</th>
+                        <th scope="col">Sublocality Level 1</th>
+                        <th scope="col">Locality</th>
+                        <th scope="col">Administrative Area Level 1</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Request Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $html = '';
+                    foreach ($this->data as $component) {
+                        $html .= '<tr>';
+                        $html .= '<td>' . $component['street_number'] . '</td>';
+                        $html .= '<td>' . $component['route'] . '</td>';
+                        $html .= '<td>' . $component['sublocality_level_1'] . '</td>';
+                        $html .= '<td>' . $component['locality'] . '</td>';
+                        $html .= '<td>' . $component['administrative_area_level_1'] . '</td>';
+                        $html .= '<td>' . $component['country'] . '</td>';
+                        $html .= '<td>' . $component['created_at'] . '</td>';
+                        $html .= '</tr>';
                     }
-                } else {
-                    console.error("Request failed with status: " + this.status);
-                }
-            }
-        };
-
-        res = JSON.stringify(res)
-        xhttp.open("POST", "http://localhost:8000/requests/store", true);
-        // xhttp.setRequestHeader(contentType: application/x-www-form-urlencoded);
-        xhttp.send(res);
-    }
-
-
-    function loadMapScript() {
-        var script = document.createElement("script");
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCXyqIwIDS9w_6r5zqQErhSGNSpQ1TbNXM&libraries=places&callback=initAutocomplete";
-        document.body.appendChild(script);
-    }
-
-    window.onload = loadMapScript;
-</script>
-<?php require_once 'layout/footer.php'?>
-
-
+                    echo $html;
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/resources/dist/js/bundle.min.js"></script>
+<?php require_once 'layout/footer.php' ?>
