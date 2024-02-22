@@ -2,29 +2,36 @@
 
 namespace App\Core\Database\PDO;
 
-
 use \PDO;
 
-class PDODatabaseExtension extends PDODatabaseConnection
+class PDODatabaseExtension
 {
 
     private $pdo;
 
-    protected $stmt;
+    private $stmt;
 
     public function __construct()
     {
-        $this->pdo = self::getInstance()->getConnection();
+        $this->pdo = PDODatabaseConnection::getInstance()->getConnection();
     }
 
-    private function prepare(string $statement)
+    /**
+     * @param string $statement
+     * @return $this
+     */
+    public function prepare(string $statement): static
     {
         $this->stmt = $this->pdo->prepare($statement);
 
         return $this;
     }
 
-    private function bind($params)
+    /**
+     * @param $params
+     * @return $this
+     */
+    public function bind(array $params): static
     {
         if (!empty($params)) {
             foreach ($params as $param => $value) {
@@ -35,20 +42,24 @@ class PDODatabaseExtension extends PDODatabaseConnection
         return $this;
     }
 
-    private function execute()
+    /**
+     * @param $data
+     * @return void
+     */
+    public function execute($data): void
     {
+        $this->stmt->execute($data);
+    }
+
+
+    /**
+     * @param $statement
+     * @return mixed
+     */
+    public function fetchAll($statement)
+    {
+        $this->prepare($statement);
         $this->stmt->execute();
-        return $this;
-    }
-
-    private function fetchAll()
-    {
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getQuery($statement, $params = [])
-    {
-        $result = $this->prepare($statement)->bind($params)->execute()->fetchAll();
-        return $result;
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);;
     }
 }

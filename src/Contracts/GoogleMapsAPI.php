@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contract;
+namespace App\Contracts;
 
 use App\Core\Config\ConfigHandler as Config;
 

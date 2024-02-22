@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\Helpers\Dev;
 use App\Core\Router\RouteHandler as Route;
 use Psr\Container\ContainerInterface;
 
@@ -20,19 +19,20 @@ class Kernel
         $this->run();
     }
 
-    public function run()
+    private function call($controller, $action, $params)
     {
-        $this->call($this->routes['controller'], $this->routes['action'], $this->routes['params']);
-    }
+        $controller = "App\Controllers\\$controller";
 
-    public function call($controller, $action, $params)
-    {
-        $controller = "App\Controller\\$controller";
         if (class_exists($controller)) {
             if (method_exists($controller, $action)) {
                 $classInstance = $this->container->get($controller);
                 call_user_func_array(array($classInstance, $action), $params);
             }
         }
+    }
+
+    private function run()
+    {
+        $this->call($this->routes['controller'], $this->routes['action'], $this->routes['params']);
     }
 }

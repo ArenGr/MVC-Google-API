@@ -3,7 +3,6 @@
 namespace App\Core\Database\Connections;
 
 use App\Core\Config\ConfigHandler as Config;
-use App\Core\Helpers\Dev;
 use \PDO;
 use \PDOException;
 

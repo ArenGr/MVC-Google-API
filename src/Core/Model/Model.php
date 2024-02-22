@@ -2,17 +2,16 @@
 
 namespace App\Core\Model;
 
-use App\Contract\GoogleMapsAPI;
+use App\Contracts\GoogleMapsAPI;
 use App\Core\Database\PDO\PDODatabaseExtension;
 use App\Core\HTTPClient\HTTPClient;
 
-class Model extends PDODatabaseExtension
+class Model
 {
     use GoogleMapsAPI;
 
-    public function __construct(public HTTPClient $HTTPClient)
+    public function __construct(public HTTPClient $HTTPClient, public PDODatabaseExtension $PDODatabaseExtension)
     {
-
     }
 
 }

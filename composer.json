@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.0",
         "ext-curl": "*",
+        "ext-pdo": "*",
         "psr/container": "^2.0",
         "vlucas/phpdotenv": "^5.6"
     }

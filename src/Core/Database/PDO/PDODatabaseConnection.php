@@ -47,7 +47,7 @@ class PDODatabaseConnection
     /**
      * @return PDODatabaseConnection|null
      */
-    protected static function getInstance(): ?PDODatabaseConnection
+    public static function getInstance(): ?PDODatabaseConnection
     {
         if (!self::$instance) {
             self::$instance = new self();
@@ -59,7 +59,7 @@ class PDODatabaseConnection
     /**
      * @return PDO|null
      */
-    protected function getConnection(): ?PDO
+    public function getConnection(): ?PDO
     {
         return $this->pdo;
     }
