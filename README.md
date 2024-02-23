@@ -63,6 +63,8 @@ In the search input field, write your address and press the "Enter" key:
 2. Enter your address into the search input field.
 3. Press the "Enter" key on your keyboard to initiate the search.
 4. Wait for the search results to populate, displaying relevant address details in the table below.
+   ![image](https://github.com/ArenGr/MVC-Google-API/assets/47744223/5c6921f4-dc37-4bdc-a333-2685877e0e56)
+
 
 ## License
 
