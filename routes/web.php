@@ -7,3 +7,4 @@ Route::add('/map/', 'GoogleMapsApiController:index');
 
 Route::add('/requests/all', 'HomeController:getAll');
 Route::add('/requests/store', 'HomeController:store');
+Route::add('/proxy', 'ProxyController:index');

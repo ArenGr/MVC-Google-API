@@ -48,19 +48,13 @@ Before proceeding with the installation, ensure that your system meets the follo
    ```bash
    chmod +x install.sh
    ```
-6. Run the install.sh script and ensure to add the MySql DB credentials outputted by the script to your `.env` file.
+6. Run the install.sh script
    ```bash
    ./install.sh
    ```
-7. Run migrations:
-    ```bash
-   composer run:migration
-   ```
+7. Ensure that the service is running on your local machine.
+   Open your web browser and navigate to http://localhost:8000.
 
-7. Run server:
-    ```bash
-   composer run:server
-   ```
 ## Usage
 
 In the search input field, write your address and press the "Enter" key:

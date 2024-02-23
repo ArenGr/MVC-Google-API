@@ -1,16 +1,27 @@
 version: '3.8'
 
+networks:
+  mysqlnet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
 services:
   mysql:
     image: mysql:8
+    container_name: mysql_8_container
+    networks:
+      mysqlnet:
+        ipv4_address: ${MYSQL_HOST}
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test_mvc
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASS}
     ports:
       - "6033:6033"
+    extra_hosts:
+      - "hostname:127.0.0.1"
     volumes:
       - mysql-data:/var/lib/mysql
 

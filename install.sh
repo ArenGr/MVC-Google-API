@@ -21,22 +21,17 @@ create_symlink_with_composer() {
 run_docker_compose() {
     echo "Running Docker Compose..."
     docker-compose up -d
+    sleep 5
 }
 
-run_docker_compose() {
-    echo "Running Docker Compose..."
-    docker-compose up -d
+run_migration() {
+    echo "Running migration..."
+    composer run:migration
 }
 
-echo_credentials() {
-
-    echo "-------------------------------------------------------------------------------------------------------------"
-    echo "Please update your .env file with the following credentials:"
-    mysql_container_host=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mvc-google-api_mysql_1)
-    echo "DBHOST:$mysql_container_host"
-    echo "DBNAME: test_mvc"
-    echo "DBUSER: admin"
-    echo "DBPASS: admin"
+run_server() {
+     echo "Running server..."
+     composer run:server
 }
 
 main() {
@@ -44,7 +39,8 @@ main() {
     install_npm_dependencies_and_gulp
     create_symlink_with_composer
     run_docker_compose
-    echo_credentials
+    run_migration
+    run_server
 }
 
 main

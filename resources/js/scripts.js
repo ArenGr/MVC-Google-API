@@ -90,10 +90,21 @@ function populateAddressDetails() {
     xhttp.send();
 }
 
+
 function loadMapScript() {
-    var script = document.createElement("script");
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCXyqIwIDS9w_6r5zqQErhSGNSpQ1TbNXM&libraries=places&callback=initAutocomplete";
-    document.body.appendChild(script);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                var script = document.createElement("script");
+                script.src = "https://maps.googleapis.com/maps/api/js?key="+JSON.parse(this.responseText)+"&libraries=places&callback=initAutocomplete";
+                document.body.appendChild(script);            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+    xhttp.open("GET", "http://localhost:8000/proxy", true);
+    xhttp.send()
 }
 
 window.onload = loadMapScript;
