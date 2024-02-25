@@ -1,25 +1,62 @@
-function initAutocomplete() {
-    var input = document.getElementById('autocomplete');
-    var autocomplete = new google.maps.places.Autocomplete(input);
+function loadMapScript() {
 
-    autocomplete.addListener('place_changed', function () {
-        var place = autocomplete.getPlace();
-
-        if (!place.geometry || !place.geometry.location) {
-            window.alert("No details available for input: '" + place.name + "'");
-            return;
-        }
-
-        var lat = place.geometry.location.lat();
-        var lng = place.geometry.location.lng();
-
-        fetchMapByCoordinates(lat, lng);
-        postMapData(place.address_components);
-        populateAddressDetails()
+    var xhttp = new XMLHttpRequest();
+    let input = document.getElementById('autocomplete');
+    var suggestionsList = document.getElementById('suggestions');
+    input.addEventListener('input', function () {
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                try {
+                    suggestionsList.innerHTML = '';
+                    JSON.parse(this.responseText).forEach(function (suggestion) {
+                        var li = document.createElement('li');
+                        li.classList.add("list-group-item");
+                        li.classList.add("item");
+                        li.textContent = suggestion[1];
+                        li.setAttribute('data-place-id', suggestion[0]);
+                        suggestionsList.appendChild(li);
+                        li.addEventListener('mouseenter', function() {
+                            li.style.backgroundColor = '#f0f0f0'; // Change background color on hover
+                        });
+                        li.addEventListener('mouseleave', function() {
+                            li.style.backgroundColor = ''; // Reset background color when mouse leaves
+                        });
+                        li.addEventListener("click", function (e) {
+                            if (e.target && e.target.matches("li.item")) {
+                                input.value = e.target.textContent;
+                                suggestionsList.innerHTML = '';
+                                getDetails(li.getAttribute('data-place-id'));
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        };
+        xhttp.open("GET", "http://localhost:8000/google/maps/autocomplete/?input=" + input.value, true);
+        xhttp.send();
     })
 }
 
-function fetchMapByCoordinates(lat, lng) {
+function getDetails(placeId) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                res = JSON.parse(this.responseText);
+                getImage(res['location']['lat'], res['location']['lng'])
+                storeAddressDetails(res['address'])
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+    xhttp.open("GET", "http://localhost:8000/google/maps/coordinates/?placeId=" + placeId, true);
+    xhttp.send();
+}
+
+function getImage(lat, lng) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -30,11 +67,11 @@ function fetchMapByCoordinates(lat, lng) {
             }
         }
     };
-    xhttp.open("GET", "http://localhost:8000/map/?lat=" + lat + "&lng=" + lng, true);
+    xhttp.open("GET", "http://localhost:8000/google/maps/image/?lat=" + lat + "&lng=" + lng, true);
     xhttp.send();
 }
 
-function postMapData(data) {
+function storeAddressDetails(data) {
     expectedTypes = ['street_number', 'route', 'sublocality_level_1', 'locality', 'administrative_area_level_1', 'country'];
     res = data.reduce((acc, item) => {
         if (expectedTypes.includes(item['types'][0])) {
@@ -48,7 +85,7 @@ function postMapData(data) {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 try {
-
+                    getAddressDetails()
                 } catch (error) {
                     console.log(error);
                 }
@@ -62,7 +99,7 @@ function postMapData(data) {
     xhttp.send(res);
 }
 
-function populateAddressDetails() {
+function getAddressDetails() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -88,23 +125,6 @@ function populateAddressDetails() {
     };
     xhttp.open("GET", "http://localhost:8000/requests/all", true);
     xhttp.send();
-}
-
-
-function loadMapScript() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            try {
-                var script = document.createElement("script");
-                script.src = "https://maps.googleapis.com/maps/api/js?key="+JSON.parse(this.responseText)+"&libraries=places&callback=initAutocomplete";
-                document.body.appendChild(script);            } catch (error) {
-                console.log(error)
-            }
-        }
-    };
-    xhttp.open("GET", "http://localhost:8000/proxy", true);
-    xhttp.send()
 }
 
 window.onload = loadMapScript;

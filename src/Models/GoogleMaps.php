@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Core\Model\Model;
 
-class GoogleMapsApi extends Model
+class GoogleMaps extends Model
 {
 
     /**

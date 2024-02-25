@@ -3,13 +3,16 @@
         <div class="row">
             <h1 class="display-6">Google Static Maps</h1>
             <div class="col-md-6">
-                <img src="/resources/images/google-maps-earth.jpg" class="img-fluid" id="mapImage" width="600" height="400" alt="Google Map">
+                <img src="/resources/images/google-maps-earth.jpg" class="img-fluid" id="mapImage" width="600"
+                     height="400" alt="Google Map">
             </div>
             <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="text" id="autocomplete" class="form-control" placeholder="Enter your address"
-                           aria-label="Address" aria-describedby="button-addon2">
+                <div class="input-group">
+                    <input type="text" id="autocomplete" class="form-control" list="suggestions"
+                           placeholder="Enter your address" aria-label="Address">
                 </div>
+                <ul id="suggestions" class="list-group">
+                </ul>
             </div>
         </div>
         <div class="row mt-5">

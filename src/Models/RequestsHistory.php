@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
+use App\Core\Helpers\Dev;
 use App\Core\Model\Model;
 
 class RequestsHistory extends Model
 {
-    /**
-     * @var string
-     */
-    private string $table = 'requests_history';
-
     /**
      * @return mixed
      */

@@ -19,8 +19,8 @@ class HomeController
 
     public function store()
     {
-        $jsonData = file_get_contents("php://input");
-        $data = json_decode($jsonData, true);
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
 
         return $this->requestsHistory->store($data);
     }
@@ -29,5 +29,4 @@ class HomeController
     {
         echo json_encode($this->requestsHistory->getAll());
     }
-
 }

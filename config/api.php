@@ -3,12 +3,16 @@
 return array(
     'api' => array(
         'google' => array(
-            'key' => $_ENV['GOOGLE_API_KEY'],
-            'url' => $_ENV['GOOGLE_MAP_URL'],
-            'settings' => array(
-                "zoom=15",
-                "size=600x400",
-                'format=png',
+            'maps' => array(
+                'key' => $_ENV['GOOGLE_API_KEY'],
+                'url' => $_ENV['GOOGLE_MAPS_URL'],
+                'settings' => array(
+                    'static_image' => array(
+                        'zoom=15',
+                        'size=600x400',
+                        'format=png',
+                    )
+                )
             )
         )
     )
