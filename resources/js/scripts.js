@@ -1,8 +1,8 @@
 function loadMapScript() {
 
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     let input = document.getElementById('autocomplete');
-    var suggestionsList = document.getElementById('suggestions');
+    let suggestionsList = document.getElementById('suggestions');
     input.addEventListener('input', function () {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -15,10 +15,10 @@ function loadMapScript() {
                         li.textContent = suggestion[1];
                         li.setAttribute('data-place-id', suggestion[0]);
                         suggestionsList.appendChild(li);
-                        li.addEventListener('mouseenter', function() {
+                        li.addEventListener('mouseenter', function () {
                             li.style.backgroundColor = '#f0f0f0'; // Change background color on hover
                         });
-                        li.addEventListener('mouseleave', function() {
+                        li.addEventListener('mouseleave', function () {
                             li.style.backgroundColor = ''; // Reset background color when mouse leaves
                         });
                         li.addEventListener("click", function (e) {
@@ -40,7 +40,7 @@ function loadMapScript() {
 }
 
 function getDetails(placeId) {
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             try {
@@ -57,7 +57,7 @@ function getDetails(placeId) {
 }
 
 function getImage(lat, lng) {
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             try {
@@ -72,15 +72,19 @@ function getImage(lat, lng) {
 }
 
 function storeAddressDetails(data) {
-    expectedTypes = ['street_number', 'route', 'sublocality_level_1', 'locality', 'administrative_area_level_1', 'country'];
-    res = data.reduce((acc, item) => {
-        if (expectedTypes.includes(item['types'][0])) {
-            acc[item['types'][0]] = item['long_name'];
+    const expectedTypes = ['street_number', 'route', 'sublocality_level_1', 'locality', 'administrative_area_level_1', 'country'];
+
+    let res = expectedTypes.reduce((acc, item) => {
+        const match = data.find(entry => entry.types.includes(item));
+        if (match) {
+            acc[item] = match.long_name;
+        } else {
+            acc[item] = null;
         }
         return acc;
     }, {});
 
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
@@ -100,21 +104,21 @@ function storeAddressDetails(data) {
 }
 
 function getAddressDetails() {
-    var xhttp = new XMLHttpRequest();
+    const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             try {
-                var tableBody = document.querySelector('tbody');
-                var html = '';
+                let tableBody = document.querySelector('tbody');
+                let html = '';
                 JSON.parse(this.responseText).forEach(function (component) {
                     html += '<tr>';
-                    html += '<td>' + component['street_number'] + '</td>';
-                    html += '<td>' + component['route'] + '</td>';
-                    html += '<td>' + component['sublocality_level_1'] + '</td>';
-                    html += '<td>' + component['locality'] + '</td>';
-                    html += '<td>' + component['administrative_area_level_1'] + '</td>';
-                    html += '<td>' + component['country'] + '</td>';
-                    html += '<td>' + component['created_at'] + '</td>';
+                    html += '<td>' + (component['street_number'] ?? '') + '</td>';
+                    html += '<td>' + (component['route'] ?? '') + '</td>';
+                    html += '<td>' + (component['sublocality_level_1'] ?? '') + '</td>';
+                    html += '<td>' + (component['locality'] ?? '') + '</td>';
+                    html += '<td>' + (component['administrative_area_level_1'] ?? '') + '</td>';
+                    html += '<td>' + (component['country'] ?? '') + '</td>';
+                    html += '<td>' + (component['created_at'] ?? '') + '</td>';
                     html += '</tr>';
                 });
                 tableBody.innerHTML = html;

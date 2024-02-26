@@ -6,17 +6,21 @@ use App\Core\Model\Model;
 
 class GoogleMaps extends Model
 {
-
     /**
-     * Retrieves a Google Maps static image based on the provided latitude and longitude coordinates.
-     * @param float $lat
-     * @param $lng
-     * @return mixed
+     * @throws \Exception
      */
-    public function getGoogleMapsImageByCoordinates(float $lat, $lng)
+    public function getStaticImage(string $url): string
     {
-        $url = $this->prepareGoogleMapsUrl($lat, $lng);
+        return $this->HTTPClient->get($url);
+    }
 
+    public function getPredictions(string $url)
+    {
+        return $this->HTTPClient->get($url);
+    }
+
+    public function getAddressDetails(string $url)
+    {
         return $this->HTTPClient->get($url);
     }
 }

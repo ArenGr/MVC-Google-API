@@ -33,7 +33,13 @@ class PDODatabaseExtension
 
     public function execute(): void
     {
-        $this->stmt->execute();
+        try {
+            $this->stmt->execute();
+        } catch (\PDOException $e) {
+            echo "Database Error: " . $e->getMessage();
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }
 
     public function fetchAll(): array

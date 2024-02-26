@@ -31,9 +31,9 @@ class GoogleMapsController
         echo json_encode($predictions);
     }
 
-    public function getCoordinates(string $placeId)
+    public function getAddressDetails(string $placeId)
     {
-        $coordinates = $this->googleMapsService->getCoordinates($placeId);
-        echo json_encode($coordinates);
+        $details = $this->googleMapsService->getAddressDetails($placeId);
+        echo json_encode($details);
     }
 }

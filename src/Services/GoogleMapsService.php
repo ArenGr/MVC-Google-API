@@ -14,34 +14,35 @@ class GoogleMapsService
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getStaticImage(float $lat, float $lng)
     {
         $url = $this->googleMapsHelper->buildStaticImageUrl($lat, $lng);
-        return $this->googleMaps->HTTPClient->get($url);
+        return $this->googleMaps->getStaticImage($url);
     }
 
     public function getPredictions(string $input): array
     {
         $url = $this->googleMapsHelper->builAutocompleteUrl($input);
-        $resposne = $this->googleMaps->HTTPClient->get($url);
-        $resposne = json_decode($resposne, true);
-        $predictions = array_map(function ($item) {
+        $response = $this->googleMaps->getPredictions($url);
+        $response = json_decode($response, true);
+        return array_map(function ($item) {
             return [$item['place_id'], $item['description']];
-        }, $resposne['predictions']);
-
-        return $predictions;
+        }, $response['predictions']);
     }
 
-    public function getCoordinates(string $placeId): array
+    public function getAddressDetails(string $placeId): array
     {
         $url = $this->googleMapsHelper->buildPlaceDetailsUrl($placeId);
 
-        $resposne = $this->googleMaps->HTTPClient->get($url);
-        $resposne = json_decode($resposne, true);
+        $response = $this->googleMaps->getAddressDetails($url);
+        $response = json_decode($response, true);
 
         return array(
-            'location' => $resposne['result']['geometry']['location'],
-            'address' => $resposne['result']['address_components']
+            'location' => $response['result']['geometry']['location'],
+            'address' => $response['result']['address_components']
         );
     }
 }

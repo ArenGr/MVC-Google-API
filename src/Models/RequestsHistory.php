@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Core\Helpers\Dev;
 use App\Core\Model\Model;
 
 class RequestsHistory extends Model
@@ -21,21 +20,6 @@ class RequestsHistory extends Model
 
     public function store($data): void
     {
-        $template = [
-            'street_number',
-            'route',
-            'sublocality_level_1',
-            'locality',
-            'administrative_area_level_1',
-            'country'
-        ];
-
-        foreach ($template as $key) {
-            if (!array_key_exists($key, $data)) {
-                $data[$key] = '';
-            }
-        }
-
         $sql = "INSERT INTO requests_history (
                       street_number,
                       route,
@@ -52,9 +36,8 @@ class RequestsHistory extends Model
 
         $this->PDOExtension->prepare($sql);
 
-        foreach ($data as $key => $value) {
-            $this->PDOExtension->bind([$key => $value]);
-        }
+        $this->PDOExtension->bind($data);
+
         $this->PDOExtension->execute();
     }
 }

@@ -8,8 +8,8 @@ use App\Core\HTTPClient\HTTPClient;
 class Model
 {
     public function __construct(
-        public HTTPClient   $HTTPClient,
-        public PDOExtension $PDOExtension
+        protected HTTPClient   $HTTPClient,
+        protected PDOExtension $PDOExtension
     )
     {
     }

@@ -7,7 +7,10 @@ use App\Models\RequestsHistory;
 
 class HomeController
 {
-    public function __construct(public View $view, public RequestsHistory $requestsHistory)
+    public function __construct(
+        public View            $view,
+        public RequestsHistory $requestsHistory
+    )
     {
     }
 
